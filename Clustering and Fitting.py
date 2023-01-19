@@ -55,7 +55,6 @@ def norm_df(df):
 # Function for fitting
 def fct(x, a, b, c):
     """
-    
     Parameters
     ----------
     x : independent variable
@@ -116,7 +115,9 @@ prmet, cov = opt.curve_fit(fct, x, y)
 data1["pop_log"] = fct(x, *prmet)
 print("Parameters are: ", prmet)
 print("Covariance is: ", cov)
+# Plotting the fit
 plt.plot(x, data1["pop_log"], label="Fit")
+# Plotting the data
 plt.plot(x, y, label="Data")
 plt.grid(True)
 plt.xlabel('Year')
@@ -143,8 +144,10 @@ prmet, cov = opt.curve_fit(fct, x, y)
 
 data2["pop_log"] = fct(x, *prmet)
 print("Parameters are: ", prmet)
-print("Covariance is: ", cov)
+print("Covariance is: ", cov)# Plotting the fit
+# Plotting the fit
 plt.plot(x, data2["pop_log"], label="Fit")
+# Plotting the data
 plt.plot(x, y, label="Data")
 plt.grid(True)
 plt.xlabel('Year')
@@ -172,7 +175,9 @@ prmet, cov = opt.curve_fit(fct, x, y)
 data3["pop_log"] = fct(x, *prmet)
 print("Parameters are: ", prmet)
 print("Covariance is: ", cov)
+# Plotting the fit
 plt.plot(x, data3["pop_log"], label="Fit")
+# Plotting the data
 plt.plot(x, y, label="Data")
 plt.grid(True)
 plt.xlabel('Year')

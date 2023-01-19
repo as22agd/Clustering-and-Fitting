@@ -109,3 +109,31 @@ low, up = err_ranges(x, fct, prmet, sigma)
 low, up = err_ranges(2030, fct, prmet, sigma)
 print("Forcasted CO2 emission in Australia 2030 ranges between", low, "and", up)
 
+# Dataframe containing the data of the country China
+data2 = data[(data['Country'] == 'CHN')]
+# Implementing curve_fit function
+val = data2.values
+x, y = val[:, 1], val[:, 2]
+prmet, cov = opt.curve_fit(fct, x, y)
+
+data2["pop_log"] = fct(x, *prmet)
+print("Parameters are: ", prmet)
+print("Covariance is: ", cov)
+plt.plot(x, data2["pop_log"], label="Fit")
+plt.plot(x, y, label="Data")
+plt.grid(True)
+plt.xlabel('Year')
+plt.ylabel('CO2 emissions')
+plt.title("CO2 emission rate in China")
+plt.legend(loc='best', fancybox=True, shadow=True)
+plt.show()
+
+# Extract the sigmas from the diagonal of the covariance matrix
+sigma = np.sqrt(np.diag(cov))
+print(sigma)
+low, up = err_ranges(x, fct, prmet, sigma)
+
+# Predicting the CO2 emission in next 10 years
+low, up = err_ranges(2030, fct, prmet, sigma)
+print("Forcasted CO2 emission in China in 2030 ranges between", low, "and", up)
+

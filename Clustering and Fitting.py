@@ -16,7 +16,6 @@ from scipy.optimize import curve_fit
 import itertools as iter
 
 
-
 # The list 'indicator' contains the required indicator IDs
 indicator = ["EN.ATM.CO2E.PC","EG.USE.ELEC.KH.PC"]
 # The list 'country_code' contains the codes of selected countries
@@ -25,19 +24,45 @@ country_code = ['AUS','BRA','CHN','DEU','GBR','IND']
 
 # Funtion to read the data in world bank format to the dataframe
 def read_data(indicator,country_code):
+    """
+    Parameters
+    ----------
+    indicator : list containing the required indicator IDs
+    country_code : list containing the codes of selected countries
+    Returns
+    -------
+    df : dataframe extracted from the dataset
+    """
     df = wb.data.DataFrame(indicator, country_code, mrv=30)
     return df
 
 
 # Function to normalise th data
 def norm_df(df):
+    """
+    Parameters
+    ----------
+    df : dataframe with original values
+    Returns
+    -------
+    df : normalised dataframe
+    """
     y = df.iloc[:,2:]
     df.iloc[:,2:] = (y-y.min())/ (y.max() - y.min())
     return df
 
 
+# Function for fitting
 def fct(x, a, b, c):
+    """
+    
+    Parameters
+    ----------
+    x : independent variable
+    a,b,c : parameters to be fitted
+    """
     return a*x**2+b*x+c
+
 
 # Function to calculate the error ranges
 def err_ranges(x, func, param, sigma):
@@ -137,3 +162,30 @@ low, up = err_ranges(x, fct, prmet, sigma)
 low, up = err_ranges(2030, fct, prmet, sigma)
 print("Forcasted CO2 emission in China in 2030 ranges between", low, "and", up)
 
+# Dataframe containing the data of the country United Kingdom
+data3 = data[(data['Country'] == 'GBR')]
+# Implementing curve_fit function
+val = data3.values
+x, y = val[:, 1], val[:, 2]
+prmet, cov = opt.curve_fit(fct, x, y)
+
+data3["pop_log"] = fct(x, *prmet)
+print("Parameters are: ", prmet)
+print("Covariance is: ", cov)
+plt.plot(x, data3["pop_log"], label="Fit")
+plt.plot(x, y, label="Data")
+plt.grid(True)
+plt.xlabel('Year')
+plt.ylabel('CO2 emissions')
+plt.title("CO2 emission rate in United Kingdom")
+plt.legend(loc='best', fancybox=True, shadow=True)
+plt.show()
+
+# Extract the sigmas from the diagonal of the covariance matrix
+sigma = np.sqrt(np.diag(cov))
+print(sigma)
+low, up = err_ranges(x, fct, prmet, sigma)
+
+# Predicting the CO2 emission in next 10 years
+low, up = err_ranges(2030, fct, prmet, sigma)
+print("Forcasted CO2 emission in United Kingdom in 2030 ranges between", low, "and", up)

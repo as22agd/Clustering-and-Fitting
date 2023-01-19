@@ -114,14 +114,14 @@ param, cov = opt.curve_fit(fct, x, y)
 
 data1["pop_log"] = fct(x, *param)
 print("Parameters are: ", param)
-print("Covariance is: ", cov)
+print("Covariance-matrix is: ", cov)
 # Plotting the fit
 plt.plot(x, data1["pop_log"], label="Fit")
 # Plotting the data
-plt.plot(x, y, label="Data")
+plt.plot(x, y, label="CO2 emission")
 plt.grid(True)
 plt.xlabel('Year')
-plt.ylabel('CO2 emissions')
+plt.ylabel('CO2 emission')
 plt.title("CO2 emission rate in Australia")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()
@@ -144,14 +144,14 @@ param, cov = opt.curve_fit(fct, x, y)
 
 data2["pop_log"] = fct(x, *param)
 print("Parameters are: ", param)
-print("Covariance is: ", cov)# Plotting the fit
+print("Covariance-matrix is: ", cov)# Plotting the fit
 # Plotting the fit
 plt.plot(x, data2["pop_log"], label="Fit")
 # Plotting the data
-plt.plot(x, y, label="Data")
+plt.plot(x, y, label="CO2 emission")
 plt.grid(True)
 plt.xlabel('Year')
-plt.ylabel('CO2 emissions')
+plt.ylabel('CO2 emission')
 plt.title("CO2 emission rate in China")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()
@@ -174,14 +174,14 @@ param, cov = opt.curve_fit(fct, x, y)
 
 data3["pop_log"] = fct(x, *param)
 print("Parameters are: ", param)
-print("Covariance is: ", cov)
+print("Covariance-matrix is: ", cov)
 # Plotting the fit
 plt.plot(x, data3["pop_log"], label="Fit")
 # Plotting the data
-plt.plot(x, y, label="Data")
+plt.plot(x, y, label="CO2 emission")
 plt.grid(True)
 plt.xlabel('Year')
-plt.ylabel('CO2 emissions')
+plt.ylabel('CO2 emission')
 plt.title("CO2 emission rate in United Kingdom")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()

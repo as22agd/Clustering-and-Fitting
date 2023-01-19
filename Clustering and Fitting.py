@@ -110,10 +110,10 @@ data1 = data[(data['Country'] == 'AUS')]
 # Implementing curve_fit function
 val = data1.values
 x, y = val[:, 1], val[:, 2]
-prmet, cov = opt.curve_fit(fct, x, y)
+param, cov = opt.curve_fit(fct, x, y)
 
-data1["pop_log"] = fct(x, *prmet)
-print("Parameters are: ", prmet)
+data1["pop_log"] = fct(x, *param)
+print("Parameters are: ", param)
 print("Covariance is: ", cov)
 # Plotting the fit
 plt.plot(x, data1["pop_log"], label="Fit")
@@ -129,10 +129,10 @@ plt.show()
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
 print(sigma)
-low, up = err_ranges(x, fct, prmet, sigma)
+low, up = err_ranges(x, fct, param, sigma)
 
 # Predicting the CO2 emission in next 10 years
-low, up = err_ranges(2030, fct, prmet, sigma)
+low, up = err_ranges(2030, fct, param, sigma)
 print("Forcasted CO2 emission in Australia 2030 ranges between", low, "and", up)
 
 # Dataframe containing the data of the country China
@@ -140,10 +140,10 @@ data2 = data[(data['Country'] == 'CHN')]
 # Implementing curve_fit function
 val = data2.values
 x, y = val[:, 1], val[:, 2]
-prmet, cov = opt.curve_fit(fct, x, y)
+param, cov = opt.curve_fit(fct, x, y)
 
-data2["pop_log"] = fct(x, *prmet)
-print("Parameters are: ", prmet)
+data2["pop_log"] = fct(x, *param)
+print("Parameters are: ", param)
 print("Covariance is: ", cov)# Plotting the fit
 # Plotting the fit
 plt.plot(x, data2["pop_log"], label="Fit")
@@ -159,10 +159,10 @@ plt.show()
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
 print(sigma)
-low, up = err_ranges(x, fct, prmet, sigma)
+low, up = err_ranges(x, fct, param, sigma)
 
 # Predicting the CO2 emission in next 10 years
-low, up = err_ranges(2030, fct, prmet, sigma)
+low, up = err_ranges(2030, fct, param, sigma)
 print("Forcasted CO2 emission in China in 2030 ranges between", low, "and", up)
 
 # Dataframe containing the data of the country United Kingdom
@@ -170,10 +170,10 @@ data3 = data[(data['Country'] == 'GBR')]
 # Implementing curve_fit function
 val = data3.values
 x, y = val[:, 1], val[:, 2]
-prmet, cov = opt.curve_fit(fct, x, y)
+param, cov = opt.curve_fit(fct, x, y)
 
-data3["pop_log"] = fct(x, *prmet)
-print("Parameters are: ", prmet)
+data3["pop_log"] = fct(x, *param)
+print("Parameters are: ", param)
 print("Covariance is: ", cov)
 # Plotting the fit
 plt.plot(x, data3["pop_log"], label="Fit")
@@ -189,8 +189,8 @@ plt.show()
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
 print(sigma)
-low, up = err_ranges(x, fct, prmet, sigma)
+low, up = err_ranges(x, fct, param, sigma)
 
 # Predicting the CO2 emission in next 10 years
-low, up = err_ranges(2030, fct, prmet, sigma)
+low, up = err_ranges(2030, fct, param, sigma)
 print("Forcasted CO2 emission in United Kingdom in 2030 ranges between", low, "and", up)

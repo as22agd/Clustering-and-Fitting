@@ -17,13 +17,13 @@ import itertools as iter
 
 
 # The list 'indicator' contains the required indicator IDs
-indicator = ["EN.ATM.CO2E.PC","EG.USE.ELEC.KH.PC"]
+indicator = ["EN.ATM.CO2E.PC", "EG.USE.ELEC.KH.PC"]
 # The list 'country_code' contains the codes of selected countries
-country_code = ['AUS','BRA','CHN','DEU','GBR','IND']
+country_code = ['AUS', 'BRA', 'CHN', 'DEU', 'GBR', 'IND']
 
 
 # Funtion to read the data in world bank format to the dataframe
-def read_data(indicator,country_code):
+def read_data(indicator, country_code):
     """
     Parameters
     ----------
@@ -47,8 +47,8 @@ def norm_df(df):
     -------
     df : normalised dataframe
     """
-    y = df.iloc[:,2:]
-    df.iloc[:,2:] = (y-y.min())/ (y.max() - y.min())
+    y = df.iloc[:, 2:]
+    df.iloc[:, 2:] = (y-y.min()) / (y.max() - y.min())
     return df
 
 
@@ -76,7 +76,7 @@ def err_ranges(x, func, param, sigma):
     lower = func(x, *param)
     upper = lower
     uplow = []
-    for p,s in zip(param, sigma):
+    for p, s in zip(param, sigma):
         pmin = p - s
         pmax = p + s
         uplow.append((pmin, pmax))
@@ -89,20 +89,20 @@ def err_ranges(x, func, param, sigma):
 
 
 # Reading data to dataframe using the function read_data(indicator,country_code)
-data= read_data(indicator, country_code)
+data = read_data(indicator, country_code)
 
 # Removing 'YR' and adding new index names to data
-data.columns = [i.replace('YR','') for i in data.columns]
-data=data.stack().unstack(level=1)
+data.columns = [i.replace('YR', '') for i in data.columns]
+data = data.stack().unstack(level=1)
 data.index.names = ['Country', 'Year']
 data = data.reset_index()
 #data = data.fillna(0)
-data.drop(['EG.USE.ELEC.KH.PC'], axis = 1, inplace = True)
+data.drop(['EG.USE.ELEC.KH.PC'], axis=1, inplace=True)
 data["Year"] = pd.to_numeric(data["Year"])
 
 # Normalised dataframe
 dt_norm = norm_df(data)
-df_fit = dt_norm.drop('Country', axis = 1)
+df_fit = dt_norm.drop('Country', axis=1)
 # Applyying k-means clustering
 k = KMeans(n_clusters=3, init='k-means++', random_state=0).fit(df_fit)
 # Plotting clusters of different countries based on CO2 emission
@@ -115,7 +115,7 @@ plt.savefig("cluster.png")
 
 
 # Dataframe containing the data of the country Australia
-data1 =data[(data['Country'] == 'AUS')]
+data1 = data[(data['Country'] == 'AUS')]
 # Implementing curve_fit function
 val = data1.values
 x, y = val[:, 1], val[:, 2]
@@ -153,7 +153,7 @@ param, cov = opt.curve_fit(fct, x, y)
 
 data2["pop_log"] = fct(x, *param)
 print("Parameters are: ", param)
-print("Covariance-matrix is: ", cov)# Plotting the fit
+print("Covariance-matrix is: ", cov)  # Plotting the fit
 # Plotting the fit
 plt.plot(x, data2["pop_log"], label="Fit")
 # Plotting the data

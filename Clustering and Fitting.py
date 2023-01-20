@@ -65,6 +65,14 @@ def fct(x, a, b, c):
 
 # Function to calculate the error ranges
 def err_ranges(x, func, param, sigma):
+    """
+    Parameters
+    ----------
+    x,func,param, sigma : parameters to calculate error range
+    Returns
+    -------
+    lower,upper : lower and upper ranges of error
+    """
     lower = func(x, *param)
     upper = lower
     uplow = []
@@ -88,9 +96,9 @@ data.columns = [i.replace('YR','') for i in data.columns]
 data=data.stack().unstack(level=1)
 data.index.names = ['Country', 'Year']
 data = data.reset_index()
+#data = data.fillna(0)
 data.drop(['EG.USE.ELEC.KH.PC'], axis = 1, inplace = True)
 data["Year"] = pd.to_numeric(data["Year"])
-
 
 # Normalised dataframe
 dt_norm = norm_df(data)
@@ -103,10 +111,11 @@ plt.ylabel("CO2 Emission")
 plt.title("CO2 Emission Rate ")
 plt.legend()
 plt.show()
+plt.savefig("cluster.png")
 
 
 # Dataframe containing the data of the country Australia
-data1 = data[(data['Country'] == 'AUS')]
+data1 =data[(data['Country'] == 'AUS')]
 # Implementing curve_fit function
 val = data1.values
 x, y = val[:, 1], val[:, 2]
@@ -119,12 +128,12 @@ print("Covariance-matrix is: ", cov)
 plt.plot(x, data1["pop_log"], label="Fit")
 # Plotting the data
 plt.plot(x, y, label="CO2 emission")
-plt.grid(True)
 plt.xlabel('Year')
 plt.ylabel('CO2 emission')
 plt.title("CO2 emission rate in Australia")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()
+plt.savefig("fit1.png")
 
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
@@ -136,7 +145,7 @@ low, up = err_ranges(2030, fct, param, sigma)
 print("Forcasted CO2 emission in Australia 2030 ranges between", low, "and", up)
 
 # Dataframe containing the data of the country China
-data2 = data[(data['Country'] == 'CHN')]
+data2 = data[(data['Country'] == 'IND')]
 # Implementing curve_fit function
 val = data2.values
 x, y = val[:, 1], val[:, 2]
@@ -149,12 +158,12 @@ print("Covariance-matrix is: ", cov)# Plotting the fit
 plt.plot(x, data2["pop_log"], label="Fit")
 # Plotting the data
 plt.plot(x, y, label="CO2 emission")
-plt.grid(True)
 plt.xlabel('Year')
 plt.ylabel('CO2 emission')
-plt.title("CO2 emission rate in China")
+plt.title("CO2 emission rate in India")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()
+plt.savefig("fit2.png")
 
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
@@ -163,7 +172,7 @@ low, up = err_ranges(x, fct, param, sigma)
 
 # Predicting the CO2 emission in next 10 years
 low, up = err_ranges(2030, fct, param, sigma)
-print("Forcasted CO2 emission in China in 2030 ranges between", low, "and", up)
+print("Forcasted CO2 emission in India in 2030 ranges between", low, "and", up)
 
 # Dataframe containing the data of the country United Kingdom
 data3 = data[(data['Country'] == 'GBR')]
@@ -179,12 +188,12 @@ print("Covariance-matrix is: ", cov)
 plt.plot(x, data3["pop_log"], label="Fit")
 # Plotting the data
 plt.plot(x, y, label="CO2 emission")
-plt.grid(True)
 plt.xlabel('Year')
 plt.ylabel('CO2 emission')
 plt.title("CO2 emission rate in United Kingdom")
 plt.legend(loc='best', fancybox=True, shadow=True)
 plt.show()
+plt.savefig("fit3.png")
 
 # Extract the sigmas from the diagonal of the covariance matrix
 sigma = np.sqrt(np.diag(cov))
